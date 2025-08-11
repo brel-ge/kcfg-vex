@@ -1,0 +1,97 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug Rust kcfg-vex yocto-scan",
+      "program": "${workspaceFolder}/target/debug/kcfg-vex",
+      "args": [
+        "yocto-scan",
+        "../kas-pilatus-plus/build/tmp/log/cve/cve-summary.json",
+        "../../tmp/linux-stable/",
+        "--dotconfig",
+        "../pilatus-linux/.config",
+        "--sbom",
+        "../kas-pilatus-plus/build/tmp/deploy/cyclonedx-export/bom.json",
+        "--vex-out",
+        "."
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "sourceLanguages": [
+        "rust"
+      ],
+      "env": {
+        "RUST_LOG": "debug",
+        "RUST_BACKTRACE": "1"
+      },
+      "preLaunchTask": "cargo-build-kcfg-vex"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug Rust kcfg-vex trace",
+      "program": "${workspaceFolder}/target/debug/kcfg-vex",
+      "args": [
+        "trace",
+        "../cves/CVE-2025-21650.json",
+        "/tmp/test-linux-src",
+        "--file",
+        "drivers/net/dummy_main.c",
+        "--show-graph"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "sourceLanguages": [
+        "rust"
+      ],
+      "env": {
+        "RUST_LOG": "debug",
+        "RUST_BACKTRACE": "1"
+      },
+      "preLaunchTask": "cargo-build-kcfg-vex"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug Rust kcfg-vex cve-fetch",
+      "program": "${workspaceFolder}/target/debug/kcfg-vex",
+      "args": [
+        "cve-fetch",
+        "CVE-2023-1234",
+        "--outdir",
+        "../cves"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "sourceLanguages": [
+        "rust"
+      ],
+      "env": {
+        "RUST_LOG": "debug",
+        "RUST_BACKTRACE": "1"
+      },
+      "preLaunchTask": "cargo-build-kcfg-vex"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug Tracer Tests",
+      "program": "${workspaceFolder}/target/debug/deps/tracer_tests-10226a85289c9027",
+      "args": [
+        "--nocapture"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "sourceLanguages": [
+        "rust"
+      ],
+      "env": {
+        "RUST_LOG": "debug",
+        "RUST_BACKTRACE": "1"
+      },
+      "preLaunchTask": "cargo-test-build"
+    }
+  ]
+}
