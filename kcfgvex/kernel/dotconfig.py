@@ -13,7 +13,6 @@ from typing import Dict, Iterable, Iterator, Tuple
 __all__ = [
     "DotConfig",
     "load_enabled",
-    "auto_find_config",
 ]
 
 
@@ -124,35 +123,6 @@ def load_enabled(path: os.PathLike | str, include_modules: bool = True) -> set[s
     Load a .config and return the set of enabled symbols (y and, optionally, m).
     """
     return DotConfig.from_path(path).enabled_set(include_modules=include_modules)
-
-
-def auto_find_config(
-    linux_src: os.PathLike | str | None = None,
-    prefer_runtime: bool = True,
-) -> Path | None:
-    """
-    Try to locate a kernel .config in common places:
-
-      1) /proc/config.gz (running kernel)                 [if prefer_runtime]
-      2) /boot/config-$(uname -r)                         [if prefer_runtime]
-      3) <linux_src>/.config                              [if linux_src given]
-      4) <linux_src>/usr/.config                          [some build layouts]
-
-    Returns a Path if found, else None.
-    """
-    candidates: list[Path] = []
-
-    if prefer_runtime:
-        candidates.extend([Path("/proc/config.gz"), _boot_config_for_running_kernel()])
-
-    if linux_src:
-        root = Path(linux_src)
-        candidates.extend([root / ".config", root / "usr" / ".config"])
-
-    for p in candidates:
-        if p and p.exists():
-            return p
-    return None
 
 
 # --------------------------- Internal helpers ------------------------------
